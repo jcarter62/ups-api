@@ -1,4 +1,4 @@
 fastapi
 jinja2
 python-multipart
-pysnmp
+uvicorn
