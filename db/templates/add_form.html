@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Record</title>
+</head>
+<body>
+    <h1>Add New Record</h1>
+    <form action="/admin/add" method="post">
+        <label for="IP">IP:</label>
+        <input type="text" id="IP" name="IP" required><br><br>
+
+        <label for="Desc1_oid">Desc1_oid:</label>
+        <input type="text" id="Desc1_oid" name="Desc1_oid" required><br><br>
+
+        <label for="Desc2_oid">Desc2_oid:</label>
+        <input type="text" id="Desc2_oid" name="Desc2_oid" required><br><br>
+
+        <label for="Temp_f_oid">Temp_f_oid:</label>
+        <input type="text" id="Temp_f_oid" name="Temp_f_oid" required><br><br>
+
+        <input type="submit" value="Add Record">
+    </form>
+    <a href="/admin">Back to Records</a>
+</body>
+</html>

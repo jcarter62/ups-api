@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Systems DB</title>
+</head>
+<body>
+    <h1>Systems Records</h1>
+    <a href="/admin/add">Add New Record</a>
+    <table border="1">
+        <tr>
+            <th>IP</th>
+            <th>Desc1_oid</th>
+            <th>Desc2_oid</th>
+            <th>Temperature oid</th>
+            <th>Actions</th>
+        </tr>
+        {% for record in records %}
+        <tr>
+            <td>{{ record[0] }}</td>
+            <td>{{ record[1] }}</td>
+            <td>{{ record[2] }}</td>
+            <td>{{ record[3] }}</td>
+            <td>
+                <a href="/admin/edit/{{ record[0] }}">Edit</a>
+                <form action="/admin/delete/{{ record[0] }}" method="post" style="display:inline;">
+                    <button type="submit">Delete</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

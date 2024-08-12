@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Status</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="refresh" content="60">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        @media screen and (max-width: 300px) {
+            table, thead, tbody, th, td, tr {
+                display: block;
+            }
+            th {
+                position: absolute;
+                top: -9999px;
+                left: -9999px;
+            }
+            tr {
+                border: 1px solid #ccc;
+                margin-bottom: 5px;
+            }
+            td {
+                border: none;
+                border-bottom: 1px solid #eee;
+                position: relative;
+                padding-left: 50%;
+            }
+            td:before {
+                position: absolute;
+                top: 6px;
+                left: 6px;
+                width: 45%;
+                padding-right: 10px;
+                white-space: nowrap;
+                content: attr(data-label);
+                font-weight: bold;
+            }
+        }
+        footer {
+            text-align: center;
+            padding: 10px;
+            background-color: #f2f2f2;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+    </style>
+</head>
+<body>
+    <h2><img src="/i/temp-image.svg" alt="Temperature Image" width="25" height="25"> Systems</h2>
+    <table border="1">
+        <tr>
+            <th>IP</th>
+            <th>Desc</th>
+            <th>Uptime</th>
+            <th>Temp F</th>
+        </tr>
+        {% for r in sites %}
+        <tr>
+            <td><a href="http://{{ r['host'] }}" target="_blank">{{ r['host'] }}</a></td>
+            <td>{{ r['description1'] }}</td>
+            <td>{{ r['description2'] }}</td>
+            <td>{{ r['temperature_f'] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <footer>
+        <p id="datetime"></p>
+    </footer>
+    <script>
+        let countdown = 60;
+
+        function updateDateTime() {
+            var now = new Date();
+            var datetime = now.toLocaleString() + ' (Reload:' + countdown + 's)';
+            document.getElementById('datetime').innerText = datetime;
+        }
+
+        function startCountdown() {
+            var countdownElement = document.getElementById('countdown');
+            countdown = 60;
+            setInterval(function() {
+                countdown--;
+                if (countdown <= 0) {
+                    countdown = 60;
+                }
+            }, 1000);
+        }
+
+        setInterval(updateDateTime, 1000);
+        updateDateTime();
+        startCountdown();
+    </script>
+
+</body>
+</html>

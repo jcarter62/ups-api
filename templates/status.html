@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Status</title>
+</head>
+<body>
+    <h1>Systems Records</h1>
+    <table border="1">
+        <tr>
+            <th>IP</th>
+            <th>Desc1</th>
+            <th>Uptime</th>
+            <th>Temperature</th>
+        </tr>
+        {% for r in sites %}
+        <tr>
+            <td>{{ r['host'] }}</td>
+            <td>{{ r['description1'] }}</td>
+            <td>{{ r['description2'] }}</td>
+            <td>{{ r['temperature_f'] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
