@@ -1,5 +1,6 @@
 from db import SystemsDB
 from .site import Site
+
 class Sites:
 
     def __init__(self):

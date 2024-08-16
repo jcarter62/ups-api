@@ -3,8 +3,9 @@ from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse, RedirectResponse, FileResponse
 from dotenv import load_dotenv
 import os
-from db import SystemsDB, admin
+from db import SystemsDB, admin, SiteData
 from snmpread import Sites
+
 app = FastAPI()
 
 app.include_router(admin.router)
@@ -54,6 +55,21 @@ async def status(request: Request):
         site.__load_data__()
 
     return templates.TemplateResponse("status.html", {"request": request, "sites": systems.sites})
+
+@app.get("/data/log-sites")
+async def log_sites():
+    devices = Sites()
+
+    for site in devices.sites:
+        site.__load_data__()
+        print(f"Logging data for {site.host}")
+        db = SiteData(host=site.host)
+        db.insert_record(host=site.host, temp_f=site.temperature_f)
+        db.close()
+        db = None
+
+    return {"message": "Data logged"}
+
 
 @app.get("/favicon.ico", include_in_schema=False)
 async def favicon():

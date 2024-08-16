@@ -23,4 +23,3 @@ class Site:
         cmd = cmdexe + ' -r:' + self.host + ' -q -v:1 -c:public -o:' + oid
         data = os.popen(cmd).read().strip()
         return data
-
