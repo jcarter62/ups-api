@@ -70,8 +70,8 @@
             <th>Temp F</th>
         </tr>
         {% for r in sites %}
-        <tr>
-            <td><a href="http://{{ r['host'] }}" target="_blank">{{ r['host'] }}</a></td>
+        <tr id="{{r['id']}}">
+            <td><a href="http://site-graph/{{ r['host'] }}" target="_blank">{{ r['host'] }}</a></td>
             <td>{{ r['description1'] }}</td>
             <td>{{ r['description2'] }}</td>
             <td>{{ r['temperature_f'] }}</td>
@@ -82,7 +82,8 @@
         <p id="datetime"></p>
     </footer>
     <script>
-        let countdown = 60;
+        let timer = 120;
+        let countdown = timer;
 
         function updateDateTime() {
             var now = new Date();
@@ -92,18 +93,38 @@
 
         function startCountdown() {
             var countdownElement = document.getElementById('countdown');
-            countdown = 60;
+            countdown = timer;
             setInterval(function() {
                 countdown--;
                 if (countdown <= 0) {
-                    countdown = 60;
+                    countdown = timer;
                 }
             }, 1000);
+        }
+
+        function load_data_for_site(id, site) {
+            let url = "/data/get-latest/" + site;
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    let row = document.getElementById(id);
+                    innerhtml = '<td><a href="/site-graph/' + data.data[1] + '">' + data.data[1]  + '</a></td>';
+
+                    innerhtml += '<td>' + data.data[3] + '</td>';
+                    innerhtml += '<td>' + data.data[2] + '</td>';
+                    innerhtml += '<td>' + data.data[4] + '</td>';
+                    row.innerHTML = innerhtml;
+                    console.log(innerhtml);
+                });
         }
 
         setInterval(updateDateTime, 1000);
         updateDateTime();
         startCountdown();
+
+        {% for r in sites %}
+        load_data_for_site("{{ r['id'] }}", "{{ r['host'] }}");
+        {% endfor %}
     </script>
 
 </body>
