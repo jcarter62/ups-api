@@ -2,8 +2,8 @@
 venv/*
 .env
 .idea/*
+.idea
 *.pyc
 *.pyo
 *.pyd
 __pycache__/
-

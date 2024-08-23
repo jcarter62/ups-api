@@ -84,18 +84,30 @@ class SiteData:
                    MAX(temp_f) as max_temp, 
                    MIN(temp_f) as min_temp
             FROM data 
-            WHERE timestamp > ? 
+            WHERE 
+                timestamp > ?
+                and temp_f IS NOT NULL
+                and temp_f != ''
+                and CAST(temp_f as REAL) is not null
             GROUP BY hour
             ORDER BY hour
         ''', (timestamp,))
 
         rslts = []
         for row in self.cursor.fetchall():
+            try:
+                f_avg = float(row[1])
+                f_max = float(row[2])
+                f_min = float(row[3])
+            except:
+                print(f"Error converting {row}")
+                continue
+
             rslts.append({
                 'hour': row[0],
-                'avg_temp': f"{row[1]:.2f}",
-                'max_temp': f"{row[2]:.2f}",
-                'min_temp': f"{row[3]:.2f}"
+                'avg_temp': f"{f_avg:.2f}",
+                'max_temp': f"{f_max:.2f}",
+                'min_temp': f"{f_min:.2f}"
             })
 
         return rslts
